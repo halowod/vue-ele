@@ -84,7 +84,7 @@
   }
 </script>
 
-<style>
+<style scoped>
     body {
         background: linear-gradient(to right, #00B1FD , #0072F3); /* 标准的语法 */
     }
