@@ -1,27 +1,29 @@
 <template>
-    <div class="login-panel">
-        <el-container>
-          <el-header class="header">
-              <h2>客户管理系统</h2>
-          </el-header>
-          <el-container>
-            <el-aside width="200px">
-                <img src="@/assets/zc.png">
-            </el-aside>
+    <div class="full-body">
+        <div class="login-panel">
             <el-container>
-              <el-main>
-                <el-input placeholder="用户名" name="username" v-model="name" clearable> </el-input>
-                    <el-alert style="margin-top: 5px;" v-if="nameError" title="用户不存在" type="warning" show-icon> </el-alert>
-                <el-input placeholder="密码" name="userpasswd" type="password" v-model="passwd" clearable> </el-input>
-                    <el-alert style="margin-top: 5px;" v-if="passwdError" title="密码错误" type="error" show-icon> </el-alert>
-                <div class="login-button-div">
-                    <el-button type="primary" size="small" @click="login">登录</el-button>
-                    <span class="forget-passwd" @click="">忘记密码</span>
-                </div>
-              </el-main>
+              <el-header class="header">
+                  <h2>客户管理系统</h2>
+              </el-header>
+              <el-container>
+                <el-aside width="200px">
+                    <img src="@/assets/zc.png">
+                </el-aside>
+                <el-container>
+                  <el-main>
+                    <el-input placeholder="用户名" name="username" v-model="name" clearable> </el-input>
+                        <el-alert style="margin-top: 5px;" v-if="nameError" title="用户不存在" type="warning" show-icon> </el-alert>
+                    <el-input placeholder="密码" name="userpasswd" type="password" v-model="passwd" clearable> </el-input>
+                        <el-alert style="margin-top: 5px;" v-if="passwdError" title="密码错误" type="error" show-icon> </el-alert>
+                    <div class="login-button-div">
+                        <el-button type="primary" size="small" @click="login">登录</el-button>
+                        <span class="forget-passwd" @click="">忘记密码</span>
+                    </div>
+                  </el-main>
+                </el-container>
+              </el-container>
             </el-container>
-          </el-container>
-        </el-container>
+        </div>
     </div>
 </template>
 
@@ -85,8 +87,9 @@
 </script>
 
 <style scoped>
-    body {
+    .full-body {
         background: linear-gradient(to right, #00B1FD , #0072F3); /* 标准的语法 */
+        height: 100%;
     }
     a {
         text-decoration: none;

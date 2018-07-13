@@ -96,7 +96,7 @@
     }
     .top-container {
         border: 1px solid #eee;
-        height: 900px;
+        height: 100%;
     }
     .el-header {
         background: linear-gradient(to right, #00A3FB , #0072F3); /* 标准的语法 */
@@ -119,7 +119,7 @@
 
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 200px;
-        min-height: 400px;
+        /*min-height: 400px;*/
         margin-left: -26px;
     }
 
