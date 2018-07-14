@@ -109,6 +109,7 @@
     .header {
         border-bottom: 1px #eee solid;
         font-size: 12px;
+        line-height: 60px;
     }
     .el-aside {
         line-height: 210px;
