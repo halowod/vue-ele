@@ -45,36 +45,41 @@
     },
     methods: {
         login: function() {
-            console.log(...[1, 2, 3]); return;
+            // console.log(...[1, 2, 3]); return;
             // console.log(this);return;
             // 判断用户输入是否空
-            if (this.name.length == 0) {
-                this.nameError = true;
-                return;
-            } else {
-                this.nameError = false;
-            }
+            // if (this.name.length == 0) {
+            //     this.nameError = true;
+            //     return;
+            // } else {
+            //     this.nameError = false;
+            // }
 
-            if (this.passwd.length == 0 && this.name.length != 0) {
-                this.passwdError = true;
-                return;
-            } else {
-                this.passwdError = false;
-            }
+            // if (this.passwd.length == 0 && this.name.length != 0) {
+            //     this.passwdError = true;
+            //     return;
+            // } else {
+            //     this.passwdError = false;
+            // }
 
             // 验证用户名 和 密码
-            let url = 'http://axadmin.zhuican.net/Design_search/chart/413';
+            // let url = 'http://axadmin.zhuican.net/model_monitor/home/param';
+            let url = 'http://lumenapi.local/api/login';
             // let data = '{"pcid":"4", "cid":"50012097", "model":"JYL-Y99", "brand_value":"joyoung/九阳"}';
 
 
             let data = new URLSearchParams();
-            data.append('name', 'hello jdmc你好');
-            data.append('id', '2');
+            data.append('name', 'qinyang');
+            data.append('password', '123456');
 
             this.axios({
                 method: 'post',
                 url: url,
-                data: data
+                data: data,
+                headers: {
+                    'Accept': 'application/vnd.lumen.v1+json',
+                    'Signature': '2D07A24FB20651C0799225A6CB32467E13BE0D60'
+                }
             }).then((response)=>{
               console.log(response.data);//成功回调
             },(response)=>{
