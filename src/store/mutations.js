@@ -7,3 +7,15 @@ export const increment = state => {
 export const decrement = state => {
   state.count--
 }
+
+// 登陆成功 - 处理 token 信息
+export const set_token = (state, token) => {
+	state.user.access_token = token;
+	sessionStorage.access_token = token;
+}
+
+export const del_token = (state, token) => {
+	state.access_token = '';
+	sessionStorage.removeItem('access_token');
+}
+

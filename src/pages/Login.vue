@@ -81,9 +81,22 @@
                     'Signature': '2D07A24FB20651C0799225A6CB32467E13BE0D60'
                 }
             }).then((response)=>{
-              console.log(response.data);//成功回调
+                console.log(response.data);//成功回调
+
+                // 处理  token 信息
+                this.$store.commit('set_token', response.data.data.access_token);
+
+                // 登陆成功跳转
+                if (this.$store.state.user.access_token) {
+                    console.log('登录成功');
+                    this.$router.push('/');
+                } else {
+                    // 登陆失败
+                    this.$router.push('/login');
+                }
+
             },(response)=>{
-              console.log('‘失败');
+                console.log('‘失败');
             })
 
         }

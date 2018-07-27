@@ -10,11 +10,12 @@ import List from '@/components/List'
 let routes = [
   {
     path: '/login',
-    name: '登录',
+    name: 'login',
     component: Login,
     // iconCls: 'el-icon-menu',
     meta: {
-      title: '用户登录'
+      title: '用户登录',
+      auth: false
     },
     hidden: true
   },
@@ -25,7 +26,8 @@ let routes = [
     iconCls: 'el-icon-menu',
     redirect:'/home',
     meta: {
-      title: '首页'
+      title: '首页',
+      auth: true
     }
   },
   {
@@ -34,9 +36,9 @@ let routes = [
       component: Home,
       iconCls: 'el-icon-location',
       children: [
-          { path: '/home', component: Main, name: 'Home', meta:{title: 'Home'}, hidden: true},
-          { path: '/list', component: List, name: '列表', meta:{title: '列表'}},
-          { path: '/btn', component: Button, name: '按钮', meta:{title: '按钮'}}
+          { path: '/home', component: Main, name: 'Home', meta:{title: 'Home', auth: true}, hidden: true},
+          { path: '/list', component: List, name: '列表', meta:{title: '列表', auth: true}},
+          { path: '/btn', component: Button, name: '按钮', meta:{title: '按钮', auth: true}}
       ]
   }
 ];

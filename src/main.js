@@ -19,6 +19,12 @@ Vue.use(Router);
 Vue.use(VueAxios,axios);
 
 
+// 页面刷新时，重新赋值token
+if (sessionStorage.getItem('access_token')) {
+    store.commit('set_token', sessionStorage.getItem('access_token'))
+}
+
+
 let router = new Router({
   mode: 'hash',
   routes: routes
@@ -26,10 +32,13 @@ let router = new Router({
 
 
 // 导航钩子权限控制
-router.beforeEach(function (to, from, next) {
-	// 登陆校验 
-
-
+router.beforeEach( (to, from, next) => {
+	// 登录校验 
+    if (to.meta.auth && store.state.user.access_token) {
+        console.log('登录校验');
+        next({ path: '/login' })
+    }
+    
 
 	// title
   	if (to.meta.title) {

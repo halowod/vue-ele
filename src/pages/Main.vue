@@ -4,6 +4,7 @@
     <span>{{msg}}</span>
   </button>
   <div>{{incrementGet}}</div>
+  <div>{{hahah123a}}</div>
   
 
  <a href="">{{hahaha}}</a>
@@ -18,7 +19,7 @@
   export default {
     data() {
       return {
-        // hahah123a: this.$store.getters.incrementGetters
+        hahah123a: this.$store.getters.incrementGetters
       }
     },
     computed: {
@@ -29,16 +30,19 @@
     },
     props: {
       msg: {
-        default: '主要默认区域'
+        default: 'home 页面  按钮'
       }
     },
-    methods: {    //绑定事件的关键代码
+    methods: {
       btnClickEvent: function(){
-        this.$store.commit('increment'); // mutations 同步改变
-        // this.$store.dispatch('incrementAction') // action 异步更新
+
+        // this.$store.commit('increment'); // mutations 同步改变
+        this.$store.dispatch('incrementAction'); // action 异步更新
         
         console.log(this.$store.getters.count);
       }
+
+
     }
   }
 </script>

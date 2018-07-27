@@ -1,5 +1,5 @@
 
-export const increment = ({ commit }) => {
+export const incrementAction = ({ commit }) => {
   commit('increment')
 }
 export const decrement = ({ commit }) => {
