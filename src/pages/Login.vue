@@ -64,7 +64,7 @@
 
             // 验证用户名 和 密码
             // let url = 'http://axadmin.zhuican.net/model_monitor/home/param';
-            let url = 'http://lumenapi.local/api/login';
+            let url = '/login';
             // let data = '{"pcid":"4", "cid":"50012097", "model":"JYL-Y99", "brand_value":"joyoung/九阳"}';
 
 
@@ -75,11 +75,7 @@
             this.axios({
                 method: 'post',
                 url: url,
-                data: data,
-                headers: {
-                    'Accept': 'application/vnd.lumen.v1+json',
-                    'Signature': '2D07A24FB20651C0799225A6CB32467E13BE0D60'
-                }
+                data: data
             }).then((response)=>{
                 console.log(response.data);//成功回调
 
@@ -89,6 +85,7 @@
                 // 登陆成功跳转
                 if (this.$store.state.user.access_token) {
                     console.log('登录成功');
+                    return;
                     this.$router.push('/');
                 } else {
                     // 登陆失败

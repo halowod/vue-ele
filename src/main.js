@@ -24,6 +24,25 @@ if (sessionStorage.getItem('access_token')) {
     store.commit('set_token', sessionStorage.getItem('access_token'))
 }
 
+// 设置默认的 api 请求地址
+axios.defaults.baseURL = 'http://lumenapi.local/api';
+
+// 添加请求拦截器
+axios.interceptors.request.use(function (config) {
+    if (store.getToken) {
+        axios.defaults.headers.common['Authorization'] = store.getToken;
+    }
+
+    console.log(config.data);
+    
+    axios.defaults.headers.common['Signature'] = '2D07A24FB20651C0799225A6CB32467E13BE0D60';
+    return config;
+  }, function (error) {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  });
+
+
 
 let router = new Router({
   mode: 'hash',
@@ -34,13 +53,12 @@ let router = new Router({
 // 导航钩子权限控制
 router.beforeEach( (to, from, next) => {
 	// 登录校验 
-    if (to.meta.auth && store.state.user.access_token) {
-        console.log('登录校验');
-        next({ path: '/login' })
+    if (to.meta.auth && !store.state.user.access_token) {
+        // next({ path: '/login' });
+        router.push({name: 'login'})
     }
-    
 
-	// title
+	// 页面title
   	if (to.meta.title) {
     	document.title = to.meta.title
   	}
