@@ -26,16 +26,19 @@ if (sessionStorage.getItem('access_token')) {
 
 // 设置默认的 api 请求地址
 axios.defaults.baseURL = 'http://lumenapi.local/api';
+axios.defaults.headers.common['Signature'] = '2D07A24FB20651C0799225A6CB32467E13BE0D60';
 
-// 添加请求拦截器
+if (store.getToken) {
+    axios.defaults.headers.common['Authorization'] = store.getToken;
+}
+
+
+// 添加请求拦截器 - 在请求或响应被 then 或 catch 处理前拦截它们。
 axios.interceptors.request.use(function (config) {
-    if (store.getToken) {
-        axios.defaults.headers.common['Authorization'] = store.getToken;
-    }
 
-    console.log(config.data);
-    
-    axios.defaults.headers.common['Signature'] = '2D07A24FB20651C0799225A6CB32467E13BE0D60';
+    // loading 图表 展示
+    // pass
+
     return config;
   }, function (error) {
     // 对请求错误做些什么

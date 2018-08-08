@@ -48,19 +48,19 @@
             // console.log(...[1, 2, 3]); return;
             // console.log(this);return;
             // 判断用户输入是否空
-            // if (this.name.length == 0) {
-            //     this.nameError = true;
-            //     return;
-            // } else {
-            //     this.nameError = false;
-            // }
+            if (this.name.length == 0) {
+                this.nameError = true;
+                return;
+            } else {
+                this.nameError = false;
+            }
 
-            // if (this.passwd.length == 0 && this.name.length != 0) {
-            //     this.passwdError = true;
-            //     return;
-            // } else {
-            //     this.passwdError = false;
-            // }
+            if (this.passwd.length == 0 && this.name.length != 0) {
+                this.passwdError = true;
+                return;
+            } else {
+                this.passwdError = false;
+            }
 
             // 验证用户名 和 密码
             // let url = 'http://axadmin.zhuican.net/model_monitor/home/param';
@@ -75,17 +75,22 @@
             this.axios({
                 method: 'post',
                 url: url,
-                data: data
+                data: data,
+                // headers: {'Signature': '2D07A24FB20651C0799225A6CB32467E13BE0D60'}
             }).then((response)=>{
-                console.log(response.data);//成功回调
-
+                console.log(response.data.data.access_token);//成功回调
+                
+                if (response.data.status != 0) {
+                    this.$router.push('/login');
+                    return;
+                }
+                
                 // 处理  token 信息
                 this.$store.commit('set_token', response.data.data.access_token);
 
                 // 登陆成功跳转
                 if (this.$store.state.user.access_token) {
                     console.log('登录成功');
-                    return;
                     this.$router.push('/');
                 } else {
                     // 登陆失败

@@ -23,9 +23,7 @@
       }
     },
     computed: {
-      hahaha () {
-        return this.$store.state.count
-      },
+      hahaha () { return this.$store.state.count },
       incrementGet() { return this.$store.getters.incrementGetters }
     },
     props: {
@@ -39,7 +37,7 @@
         // this.$store.commit('increment'); // mutations 同步改变
         this.$store.dispatch('incrementAction'); // action 异步更新
         
-        console.log(this.$store.getters.count);
+        console.log(this.$store.state.user.access_token);
       }
 
 
