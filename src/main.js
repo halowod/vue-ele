@@ -21,6 +21,7 @@ Vue.use(VueAxios,axios);
 
 
 // 页面刷新时，重新赋值token
+
 if (sessionStorage.getItem('access_token')) {
     store.commit('set_token', sessionStorage.getItem('access_token'));
 }
@@ -28,10 +29,9 @@ if (sessionStorage.getItem('access_token')) {
 // 设置默认的 api 请求地址
 axios.defaults.baseURL = 'http://lumenapi.local/api';
 axios.defaults.headers.common['Signature'] = '2D07A24FB20651C0799225A6CB32467E13BE0D60';
-// console.log(store.getters.getToken);
 
 if (store.getters.getToken) {
-    axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('token_type') + store.getters.getToken;
+    axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('token_type') + ' ' + store.getters.getToken;
 }
 
 

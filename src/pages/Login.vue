@@ -45,8 +45,7 @@
     },
     methods: {
         login: function() {
-            // console.log(...[1, 2, 3]); return;
-            // console.log(this);return;
+            // console.log(this.$store.state);
             // 判断用户输入是否空
             if (this.name.length == 0) {
                 this.nameError = true;
@@ -78,8 +77,7 @@
                 data: data,
                 // headers: {'Signature': '2D07A24FB20651C0799225A6CB32467E13BE0D60'}
             }).then((response)=>{
-                console.log(response.data.data.access_token);//成功回调
-                
+
                 if (response.data.status != 0) {
                     this.$router.push('/login');
                     return;
@@ -93,7 +91,7 @@
                 sessionStorage.setItem('token_type', response.data.data.token_type);
 
                 // 登陆成功跳转
-                if (this.$store.state.user.access_token) {
+                if (this.$store.getters.getToken) {
                     console.log('登录成功');
                     this.$router.push('/');
                 } else {

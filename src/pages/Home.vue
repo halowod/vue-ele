@@ -85,7 +85,7 @@
 
                     // 处理  token 信息
                     this.$store.commit('del_token');
-
+                    console.log(this.$store.state);
                     // 跳转到登录页
                     this.$router.push('/login');
                 }
