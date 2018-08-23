@@ -23,7 +23,7 @@ let routes = [
     path: '/',
     name: '首页',
     component: Home,
-    iconCls: 'el-icon-menu',
+    iconCls: 'icon-home',
     redirect:'/home',
     meta: {
       title: '首页',
@@ -31,10 +31,10 @@ let routes = [
     }
   },
   {
-      path: '/',
+      path: '/list',
       name: '权限管理',
       component: Home,
-      iconCls: 'el-icon-location',
+      iconCls: 'icon-team',
       children: [
           { path: '/home', component: Main, name: 'Home', meta:{title: 'Home', auth: true}, hidden: true},
           { path: '/list', component: List, name: '列表', meta:{title: '列表', auth: true}},

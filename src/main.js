@@ -5,6 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import './assets/icon/iconfont.css';
 
 
 import routes from '@/router/routes' // 路由列表
@@ -21,15 +22,16 @@ Vue.use(VueAxios,axios);
 
 // 页面刷新时，重新赋值token
 if (sessionStorage.getItem('access_token')) {
-    store.commit('set_token', sessionStorage.getItem('access_token'))
+    store.commit('set_token', sessionStorage.getItem('access_token'));
 }
 
 // 设置默认的 api 请求地址
 axios.defaults.baseURL = 'http://lumenapi.local/api';
 axios.defaults.headers.common['Signature'] = '2D07A24FB20651C0799225A6CB32467E13BE0D60';
+// console.log(store.getters.getToken);
 
-if (store.getToken) {
-    axios.defaults.headers.common['Authorization'] = store.getToken;
+if (store.getters.getToken) {
+    axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('token_type') + store.getters.getToken;
 }
 
 
@@ -53,20 +55,33 @@ let router = new Router({
 });
 
 
+console.log();
+
 // 导航钩子权限控制
 router.beforeEach( (to, from, next) => {
+
 	// 登录校验 
-    if (to.meta.auth && !store.state.user.access_token) {
+    if (to.meta.auth && !store.getters.getToken) {
         // next({ path: '/login' });
-        router.push({name: 'login'})
+        router.push({name: 'login'});
     }
 
-	// 页面title
+    // 销毁 token
+    if (new Date().getTime() > new Date(sessionStorage.getItem('expired_at')).getTime()) {
+      // store.commit('del_token');
+    }
+
+    // 刷新token  大于 refresh_at 小于 expire_at
+    if (true) {
+
+    }
+
+    // 页面title
   	if (to.meta.title) {
-    	document.title = to.meta.title
+    	document.title = '管理中心 - ' +to.meta.title
   	}
 
-	// 菜单权限校验
+    // 菜单权限校验
   	if (to.path === '/forbidden') {
     	next(false)
   	}

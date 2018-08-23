@@ -26,15 +26,15 @@
     </el-aside>
   <el-container>
     <el-header style="text-align: right; font-size: 12px">
-        <div class="toggle-left" @click="toggleLeft"><i class="el-icon-tickets"></i></div>
+        <div class="toggle-left" @click="toggleLeft"><i style="font-size: 22px;" :class="{'icon-outdent': !isCollapse, 'icon-indent': isCollapse}"></i></div>
         <el-dropdown>
-          <i class="el-icon-setting" style="margin-right: 15px; color: #fff"></i>
+          <div class="user-info" style="color: #fff;"><i class="icon-user" style="margin-right: 15px;"></i><span>秦扬</span></div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>查看</el-dropdown-item>
-            <el-dropdown-item @click="logout">退出</el-dropdown-item>
+            <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span>qinyang</span>
+        
     </el-header>
     
     <el-main>
@@ -56,15 +56,15 @@
         }
     },
     methods: {
-        handleOpen(key, keyPath) {
+        handleOpen: function(key, keyPath) {
             console.log(key, keyPath);
         },
-        handleClose(key, keyPath) {
+        handleClose: function(key, keyPath) {
             console.log(key, keyPath);
         },
 
         // 切换左侧显示
-        toggleLeft() {
+        toggleLeft: function() {
           if (this.isCollapse == true) {
             this.isCollapse = false
           } else {
@@ -73,8 +73,26 @@
         },
 
         // 退出登录
-        logout() {
-            return;
+        logout: function() {
+            let url = '/logout';
+
+            this.axios({
+                method: 'get',
+                url: url
+            }).then((response)=>{
+
+                if (response.data.status == 0) { // 退出成功
+
+                    // 处理  token 信息
+                    this.$store.commit('del_token');
+
+                    // 跳转到登录页
+                    this.$router.push('/login');
+                }
+
+            },(response)=>{
+                console.log('失败');
+            })
         }
     },
     components: {
@@ -85,6 +103,7 @@
 </script>
 
 <style scoped>
+    .user-info{cursor: pointer; border: none; outline: none;}
     .toggle-left {
       float: left;
       font-size: 22px;

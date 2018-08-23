@@ -14,7 +14,9 @@ export const set_token = (state, token) => {
 	sessionStorage.setItem('access_token', token);
 }
 
-export const del_token = (state, token) => {
+export const del_token = (state) => {
 	state.access_token = '';
 	sessionStorage.removeItem('access_token');
+	sessionStorage.removeItem('expired_at');
+	sessionStorage.removeItem('refresh_at');
 }

@@ -87,6 +87,10 @@
                 
                 // 处理  token 信息
                 this.$store.commit('set_token', response.data.data.access_token);
+                
+                sessionStorage.setItem('expired_at', response.data.data.expired_at);
+                sessionStorage.setItem('refresh_at', response.data.data.refresh_at);
+                sessionStorage.setItem('token_type', response.data.data.token_type);
 
                 // 登陆成功跳转
                 if (this.$store.state.user.access_token) {
