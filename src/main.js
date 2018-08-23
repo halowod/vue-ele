@@ -26,19 +26,24 @@ if (sessionStorage.getItem('access_token')) {
     store.commit('set_token', sessionStorage.getItem('access_token'));
 }
 
-// 设置默认的 api 请求地址
-axios.defaults.baseURL = 'http://lumenapi.local/api';
-axios.defaults.headers.common['Signature'] = '2D07A24FB20651C0799225A6CB32467E13BE0D60';
-
-if (store.getters.getToken) {
-    axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('token_type') + ' ' + store.getters.getToken;
-}
 
 
 // 添加请求拦截器 - 在请求或响应被 then 或 catch 处理前拦截它们。
 axios.interceptors.request.use(function (config) {
 
     // loading 图表 展示
+
+    // 设置默认的 api 请求地址
+    axios.defaults.baseURL = 'http://lumenapi.local/api';
+    axios.defaults.headers.common['Signature'] = '2D07A24FB20651C0799225A6CB32467E13BE0D60';
+
+    config.baseURL = 'http://lumenapi.local/api';
+    config.headers.common['Signature'] = '2D07A24FB20651C0799225A6CB32467E13BE0D60';
+
+    if (store.getters.getToken) {
+        config.headers.common['Authorization'] = sessionStorage.getItem('token_type') + ' ' + store.getters.getToken;
+    }
+
     // pass
 
     return config;
@@ -55,7 +60,6 @@ let router = new Router({
 });
 
 
-console.log();
 
 // 导航钩子权限控制
 router.beforeEach( (to, from, next) => {
@@ -86,7 +90,7 @@ router.beforeEach( (to, from, next) => {
     	next(false)
   	}
   	next()
-})
+});
 
 
 new Vue({

@@ -74,8 +74,7 @@
             this.axios({
                 method: 'post',
                 url: url,
-                data: data,
-                // headers: {'Signature': '2D07A24FB20651C0799225A6CB32467E13BE0D60'}
+                data: data
             }).then((response)=>{
 
                 if (response.data.status != 0) {

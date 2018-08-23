@@ -28,7 +28,7 @@
     <el-header style="text-align: right; font-size: 12px">
         <div class="toggle-left" @click="toggleLeft"><i style="font-size: 22px;" :class="{'icon-outdent': !isCollapse, 'icon-indent': isCollapse}"></i></div>
         <el-dropdown>
-          <div class="user-info" style="color: #fff;"><i class="icon-user" style="margin-right: 15px;"></i><span>秦扬</span></div>
+          <div class="user-info" style="color: #fff;"><i class="icon-user" style="margin-right: 15px;"></i><span>管理员</span></div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>查看</el-dropdown-item>
             <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
@@ -80,7 +80,7 @@
                 method: 'get',
                 url: url
             }).then((response)=>{
-
+                
                 if (response.data.status == 0) { // 退出成功
 
                     // 处理  token 信息
