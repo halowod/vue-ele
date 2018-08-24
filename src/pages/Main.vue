@@ -5,6 +5,7 @@
   </button>
   <div>{{incrementGet}}</div>
   <div>{{hahah123a}}</div>
+  <loading :loading="loading" :list="0" :resultCode="200"></loading>
   
 
  <a href="">{{hahaha}}</a>
@@ -18,11 +19,17 @@
 
 <script>
 
+  import loading from '@/components/loading'
+
   export default {
     data() {
       return {
+        loading: false,
         hahah123a: this.$store.getters.incrementGetters
       }
+    },
+    components: {
+      loading 
     },
     computed: {
       hahaha () { return this.$store.state.count },

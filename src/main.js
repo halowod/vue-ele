@@ -31,7 +31,7 @@ if (sessionStorage.getItem('access_token')) {
 // 添加请求拦截器 - 在请求或响应被 then 或 catch 处理前拦截它们。
 axios.interceptors.request.use(function (config) {
 
-    // loading 图表 展示
+    // loading 图标
 
     // 设置默认的 api 请求地址
     axios.defaults.baseURL = 'http://lumenapi.local/api';
@@ -82,12 +82,12 @@ router.beforeEach( (to, from, next) => {
 
     // 页面title
   	if (to.meta.title) {
-    	document.title = '管理中心 - ' +to.meta.title
+    	document.title = '管理中心 - ' +to.meta.title;
   	}
 
     // 菜单权限校验
   	if (to.path === '/forbidden') {
-    	next(false)
+    	next(false);
   	}
   	next()
 });
