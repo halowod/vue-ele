@@ -64,7 +64,7 @@ let router = new Router({
 // 导航钩子权限控制
 router.beforeEach( (to, from, next) => {
 
-	// 登录校验 
+	// 登录校验
     if (to.meta.auth && !store.getters.getToken) {
         // next({ path: '/login' });
         router.push({name: 'login'});
