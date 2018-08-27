@@ -32,7 +32,7 @@ let routes = [
   },
   {
       path: '/list',
-      name: '权限管理',
+      name: '官网权限',
       component: Home,
       iconCls: 'icon-team',
       children: [

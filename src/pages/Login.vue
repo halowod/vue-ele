@@ -10,7 +10,7 @@
                     <img src="@/assets/zc.png">
                 </el-aside>
                 <el-container>
-                  <el-main>
+                  <el-main v-loading="loading">
                     <el-input placeholder="用户名" name="username" v-model="name" clearable> </el-input>
                         <el-alert style="margin-top: 5px;" v-if="nameError" title="用户不存在" type="warning" show-icon> </el-alert>
                     <el-input placeholder="密码" name="userpasswd" type="password" v-model="passwd" clearable> </el-input>
@@ -34,14 +34,14 @@
             name: '',
             passwd: '',
             nameError: false,
-            passwdError: false,
+            passwdError: false
         }
       
     },
-    props: {
-      msg: {
-        default: '主要默认区域'
-      }
+    computed: {
+        loading: function () {
+            return this.$store.getters.getLoading;
+        }
     },
     methods: {
         login: function() {
@@ -100,7 +100,7 @@
 
             },(response)=>{
                 console.log('‘失败');
-            })
+            });
 
         }
     }

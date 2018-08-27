@@ -92,7 +92,8 @@
 
             },(response)=>{
                 console.log('失败');
-            })
+            });
+            
         }
     },
     components: {

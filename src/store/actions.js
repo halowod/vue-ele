@@ -1,4 +1,6 @@
 
+
+// 异步操作 调用 mutation 里面的方法
 export const incrementAction = ({ commit }) => {
   commit('increment')
 }
