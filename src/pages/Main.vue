@@ -28,6 +28,11 @@
         hahah123a: this.$store.getters.incrementGetters
       }
     },
+    created () {
+      // 组件创建完后获取数据，
+      // 此时 data 已经被 observed 了
+      console.log('这里可以发送http请求');
+    },
     components: {
       loading 
     },
