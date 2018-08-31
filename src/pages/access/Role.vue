@@ -77,7 +77,7 @@
     },
     
     created () {
-      let data = '{"method":"user.role.list", "cid":"50012097", "model":"JYL-Y99", "brand_value":"joyoung/九阳"}';
+      let data = '{"method":"access.role.list", "cid":"50012097", "model":"JYL-Y99", "brand_value":"joyoung/九阳"}';
         this.axios({
                 method: 'post',
                 url: '/role',
