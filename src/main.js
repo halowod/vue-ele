@@ -35,10 +35,8 @@ axios.interceptors.request.use(function (config) {
     store.commit('loading', true);
 
     // 设置默认的 api 请求地址
-    axios.defaults.baseURL = 'http://lumenapi.local/api';
-    axios.defaults.headers.common['Signature'] = '2D07A24FB20651C0799225A6CB32467E13BE0D60';
-
     config.baseURL = 'http://lumenapi.local/api';
+    config.headers.post['Content-Type'] = 'application/json; charset=utf-8';
     config.headers.common['Signature'] = '2D07A24FB20651C0799225A6CB32467E13BE0D60';
 
     if (store.getters.getToken) {

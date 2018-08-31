@@ -2,8 +2,13 @@
 import Home from '@/pages/Home'
 import Main from '@/pages/Main'
 import Login from '@/pages/Login'
-import Button from '@/components/Button'
-import List from '@/components/List'
+
+// 权限管理
+import Access from '@/pages/access/Access'
+import Role from '@/pages/access/Role'
+import User from '@/pages/access/User'
+
+// ---
 
 
 
@@ -32,13 +37,14 @@ let routes = [
   },
   {
       path: '/list',
-      name: '官网权限',
+      name: '后台权限',
       component: Home,
       iconCls: 'icon-team',
       children: [
           { path: '/home', component: Main, name: 'Home', meta:{title: 'Home', auth: true}, hidden: true},
-          { path: '/list', component: List, name: '列表', meta:{title: '列表', auth: true}},
-          { path: '/btn', component: Button, name: '按钮', meta:{title: '按钮', auth: true}}
+          { path: '/list', component: User, name: '操作员', meta:{title: '操作人员', auth: true}},
+          { path: '/btn', component: Role, name: '角色', meta:{title: '用户组', auth: true}},
+          { path: '/access', component: Access, name: '权限', meta:{title: '权限', auth: true}}
       ]
   }
 ];

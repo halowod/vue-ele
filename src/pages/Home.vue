@@ -1,6 +1,6 @@
 <template>
   <el-container class="top-container">
-    <el-aside style="width: auto;">
+    <el-aside style="width: auto;" class="left-content">
         <div class="logo_left">
             <img v-if="isCollapse === true" src="@/assets/dog_mini.png">
             <img v-else src="@/assets/dog.png">
@@ -104,6 +104,7 @@
 </script>
 
 <style scoped>
+    .left-content {text-align: center;}
     .user-info{cursor: pointer; border: none; outline: none;}
     .toggle-left {
       float: left;
@@ -126,11 +127,6 @@
         background: linear-gradient(to right, #00A3FB , #0072F3); /* 标准的语法 */
         color: #fff;
         line-height: 60px;
-    }
-
-    .radio-group {
-        float: left;
-        margin-top: 17px;
     }
   
     .el-aside {
