@@ -5,20 +5,20 @@
             <img v-if="isCollapse === true" src="@/assets/dog_mini.png">
             <img v-else src="@/assets/dog.png">
         </div>
-        <el-menu :default-active="$route.path" :unique-opened="uniqueOpened" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+        <el-menu :default-active="defaultActive" :unique-opened="uniqueOpened" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
             <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden">
 
-              <el-menu-item :index="item.redirect" v-if="!item.children" @click="$router.push(item.path)">
+              <el-menu-item :index="item.meta.nav" v-if="!item.children" @click="$router.push(item.path)">
                 <i :class="item.iconCls"></i>
                 <span slot="title">{{item.name}}</span>
               </el-menu-item>
 
-              <el-submenu :index="item.path" v-if="item.children">
+              <el-submenu :index="item.meta.nav" v-if="item.children">
                 <template slot="title">
                   <i :class="item.iconCls"></i>
                   <span slot="title">{{item.name}}</span>
                 </template>
-                <el-menu-item v-for="(child, index1) in item.children" :key="child.name" v-if="!child.hidden" :index="child.path" @click="$router.push(child.path)">{{child.name}}</el-menu-item>
+                <el-menu-item v-for="(child, index1) in item.children" :key="child.name" v-if="!child.hidden" :index="child.meta.nav" @click="$router.push(child.path)">{{child.name}}</el-menu-item>
               </el-submenu>
             </template>
 
@@ -52,7 +52,13 @@
     data() {
         return {
             isCollapse: false,
-            uniqueOpened: true,
+            uniqueOpened: true
+        }
+    },
+    computed: {
+        defaultActive: function () {
+            console.log(this.$route);
+            return this.$route.meta.nav;
         }
     },
     methods: {
@@ -148,6 +154,7 @@
     }
 
     .el-footer {
+        text-align: center;
         color: #333;
         border-top: 1px solid #eee;
         border-left: 1px solid #eee;

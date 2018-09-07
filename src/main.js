@@ -75,16 +75,18 @@ let router = new Router({
 // 导航钩子权限控制
 router.beforeEach( (to, from, next) => {
 
+    // 销毁 token
+    if (new Date().getTime() > new Date(sessionStorage.getItem('expired_at')).getTime() || new Date(sessionStorage.getItem('expired_at')).getTime() == 0) {
+        store.commit('del_token');
+    }
+
 	// 登录校验
     if (to.meta.auth && !store.getters.getToken) {
         // next({ path: '/login' });
         router.push({name: 'login'});
     }
 
-    // 销毁 token
-    if (new Date().getTime() > new Date(sessionStorage.getItem('expired_at')).getTime()) {
-      // store.commit('del_token');
-    }
+
 
     // 刷新token  大于 refresh_at 小于 expire_at
     if (true) {

@@ -111,6 +111,7 @@
     .full-body {
         background: linear-gradient(to right, #00B1FD , #0072F3); /* 标准的语法 */
         height: 100%;
+        text-align: center;
     }
     a {
         text-decoration: none;

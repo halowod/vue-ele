@@ -4,15 +4,15 @@
             <circle class="path" fill="none" stroke-width="4" stroke-linecap="round" cx="22" cy="22" r="20"></circle>
         </svg>
         <div v-if="!loading">
-            <div v-if="(!list && resultCode == '200')" class="loading-text">没有符合条件的记录</div>
-            <div v-if="resultCode != '200'" class="loading-text">服务器异常</div>
+            <div v-if="(Object.keys(data).length == 0 && status == '806')" class="loading-text">没有符合条件的记录</div>
+            <div v-else class="loading-text">服务异常</div>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['list', 'loading', 'resultCode']
+        props: ['data', 'loading', 'status']
     }
 </script>
 
