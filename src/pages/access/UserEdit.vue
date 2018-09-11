@@ -16,6 +16,11 @@
               <el-form-item label="手机号" prop="phone">
                 <el-input v-model="formData.phone"></el-input>
               </el-form-item>
+              <el-form-item label="角色" prop="role_id">
+                <el-select v-model="formData.role_id" filterable placeholder="请选择" @change="ahahhaha">
+                  <el-option v-for="item in formData.options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
               <el-form-item label="新密码" prop="pass">
                 <el-input type="password" v-model="formData.pass" auto-complete="off"></el-input>
               </el-form-item>
@@ -39,7 +44,6 @@
   .breadcrumb { padding-bottom: 10px; border-bottom: solid 1px #eee; }
   .box-card {margin-top: 30px;}
   .demo-ruleForm { width: 30%; }
-
 </style>
 
 <script>
@@ -68,16 +72,20 @@
 
           return {
             user_id: 0,
+            
             formData: {
               user_name: '',
               phone: '',
               pass: '',
               checkPass: '',
-              status: false
+              status: false,
+              options: [],
+              role_id: '',
             },
 
             rules: {
               user_name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+              role_id: [{ required: true, message: '请选择用户组', trigger: 'blur' }],
               pass: [{ required: true, validator: validatePass, trigger: 'blur' }],
               checkPass: [{ required: true, validator: validatePass2, trigger: 'blur' }],
             }
@@ -91,9 +99,16 @@
         created () {
             this.user_id = this.$route.params.user_id;
 
+            // 获取用户信息
             this.getUserInfo();
+
+            // 渲染角色列表
+            this.getRoleData();
         },
         methods: {
+          ahahhaha: function() {
+            // alert(this.role_id);
+          },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                   if (valid) {
@@ -115,8 +130,9 @@
                 let checkPass = this.formData.checkPass;
                 let pass = this.formData.pass;
                 let status = this.formData.status;
+                let role_id = this.formData.role_id;
 
-                let data = `{"method":"access.user.update", "user_name": "${user_name}", "user_id": "${this.user_id}", "status": "${status}", "phone": "${phone}", "checkPass": "${checkPass}", "pass": "${pass}"}`;
+                let data = `{"method":"access.user.update", "user_name": "${user_name}", "user_id": "${this.user_id}", "status": "${status}", "phone": "${phone}", "checkPass": "${checkPass}", "pass": "${pass}", "role_id": "${role_id}"}`;
                 
                 this.axios({
                     method: 'post',
@@ -151,6 +167,29 @@
                     if (response.data.status == 0) {
                         this.formData.user_name = response.data.data.name;
                         this.formData.phone = response.data.data.phone;
+                        this.formData.role_id = response.data.data.role_id;
+                    } else {
+                        // 提示错误信息
+                        this.$message(response.data.message);
+                    }
+                    
+                  
+                },(response)=>{
+                    console.log('失败');
+                });
+            },
+            getRoleData: function() {
+
+                let data = `{"method":"access.role.data"}`;
+                
+                this.axios({
+                    method: 'post',
+                    url: '/role',
+                    data: data
+                }).then((response)=>{
+                    // console.log(response.data.data);
+                    if (response.data.status == 0) {
+                        this.formData.options = response.data.data;
                     } else {
                         // 提示错误信息
                         this.$message(response.data.message);

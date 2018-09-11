@@ -4,26 +4,33 @@
           <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>后台权限</el-breadcrumb-item>
-            <el-breadcrumb-item>角色管理</el-breadcrumb-item>
-            <el-breadcrumb-item>角色修改</el-breadcrumb-item>
+            <el-breadcrumb-item>权限</el-breadcrumb-item>
+            <el-breadcrumb-item>权限修改</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <el-card shadow="hover" class="box-card">
             <el-form v-loading="loading" size="small" :model="formData" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-              <el-form-item label="名称" prop="role_name">
-                <el-input v-model="formData.role_name"></el-input>
+              
+              <el-form-item label="父级" prop="parent_path">
+                <el-cascader placeholder="试试搜索" v-model="formData.parent_path" @change="handleChange" :options="options" filterable change-on-select></el-cascader>
               </el-form-item>
-              <el-form-item label="权限范围" prop="permit_data">
-                <el-tree :data="formData.permit_data" show-checkbox node-key="value" ref="tree" @check-change="checkChange" :default-checked-keys="formData.permit_default_checked" :props="defaultProps"></el-tree>
+              <el-form-item label="权限名称" prop="permit_name">
+                <el-input v-model="formData.permit_name"></el-input>
+              </el-form-item>
+              <el-form-item label="action" prop="permit_action">
+                <el-input v-model="formData.permit_action"></el-input>
+              </el-form-item>
+              <el-form-item label="method" prop="permit_method">
+                <el-input v-model="formData.permit_method"></el-input>
               </el-form-item>
               <el-form-item label="禁用" prop="delivery">
                 <el-switch v-model="formData.status"></el-switch>
               </el-form-item>
-              <el-form-item label="活动形式" prop="desc">
+              <el-form-item label="描述" prop="desc">
                 <el-input type="textarea" v-model="formData.desc"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">确认修改</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')">立即修改</el-button>
                 <el-button @click="resetForm('ruleForm')">重置</el-button>
               </el-form-item>
             </el-form>
@@ -43,22 +50,22 @@
     export default {
         data() {
           return {
-            role_id: '',
+            permit_id: '',
             formData: {
-              role_name: '',
-              status: false,
-              desc: '',
-              permit_data: [],
-              permit_default_checked: [],
-              permit_checked_keys: []
+                parent_path: [0],
+                permit_name: '',
+                permit_action: '',
+                permit_method: '',
+                status: false,
+                desc: ''
             },
             rules: {
-              role_name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }]
+                parent_path: [ { required: true, message: '请选择父菜单', trigger: 'blur' } ],
+                permit_name: [ { required: true, message: '请输入权限名称', trigger: 'blur' } ],
+                permit_action: [ { required: true, message: '请输入权限 action', trigger: 'blur' } ],
+                permit_method: [ { required: true, message: '请输入权限 method', trigger: 'blur' } ],
             },
-            defaultProps: {
-              children: 'children',
-              label: 'label'
-            }
+            options: [],
           };
         },
         computed: {
@@ -67,20 +74,21 @@
             }
         },
         created () {
-            this.role_id = this.$route.params.role_id;
+            this.permit_id = this.$route.params.permit_id;
 
-            // 渲染角色信息
-            this.getRoleInfo();
+            // 获取详细信息
+            this.getPermitInfo();
 
-            // 渲染 权限范围
+            // 获取 父选项
             this.getPermitView();
         },
         methods: {
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                   if (valid) {
-                    // 异步更新操作
-                    this.updateRoel();
+                    // 入库操作
+                    console.log(this.$route.params.permit_id);
+                    this.updatePermit();
                   } else {
                     console.log('error submit!!');
                     return false;
@@ -88,19 +96,22 @@
                 });
             },
             
-            // 公共方法 获取角色列表
-            updateRoel: function() {
+            // 公共方法 获取权限列表
+            updatePermit: function() {
 
-                let role_name = this.formData.role_name;
+                let permit_name = this.formData.permit_name;
+                let permit_method = this.formData.permit_method;
+                let permit_action = this.formData.permit_action;
+                
                 let status = this.formData.status;
                 let desc = this.formData.desc;
-                let permit_checked_keys = this.formData.permit_checked_keys.join();
-                
-                let data = `{"method":"access.role.update", "role_name": "${role_name}", "role_id": "${this.role_id}", "status": "${status}", "desc": "${desc}", "permit_checked_keys": "${permit_checked_keys}"}`;
+                let parent_path = this.formData.parent_path.join();
+
+                let data = `{"method":"access.permit.update", "permit_name": "${permit_name}", "permit_id": "${this.permit_id}", "status": "${status}", "desc": "${desc}", "permit_action": "${permit_action}", "permit_method": "${permit_method}", "parent_path": "${parent_path}"}`;
                 
                 this.axios({
                     method: 'post',
-                    url: '/role',
+                    url: '/permit',
                     data: data
                 }).then((response)=>{
 
@@ -108,7 +119,7 @@
                     if (status == 0) {
                         // 跳转到 列表页
                         this.$message({showClose: true, message: '修改成功', type: 'success'});
-                        this.$router.push({ path: '/role'});
+                        this.$router.push({ path: '/permit'});
                     } else {
                         // 提示错误信息
                         this.$message({showClose: true, message: response.data.message, type: 'error'});
@@ -118,28 +129,29 @@
                     console.log('失败');
                 });
             },
-            getRoleInfo: function() {
+            getPermitInfo: function() {
 
-                let data = `{"method":"access.role.info", "role_id": "${this.role_id}"}`;
+                let data = `{"method":"access.permit.info", "permit_id": "${this.permit_id}"}`;
                 
                 this.axios({
                     method: 'post',
-                    url: '/role',
+                    url: '/permit',
                     data: data
                 }).then((response)=>{
                     // console.log(response.data.data);
-                    this.formData.role_name = response.data.data.role_name;
-
+                    this.formData.permit_name = response.data.data.permit_name;
+                    this.formData.permit_action = response.data.data.action;
+                    this.formData.permit_method = response.data.data.method;
+                    
                     // string 转 int
-                    let strArr = response.data.data.permit_id.split(',');
+                    let strArr = response.data.data.parent_path.split(',');
                     let arr = [];
                     for (var i=0; i < strArr.length; i++) {
                         arr.push(parseInt(strArr[i]));
                     }
+                    // arr.push(response.data.data.id);
 
-                    // 权限范围
-                    this.formData.permit_default_checked = arr;
-                    this.formData.permit_checked_keys = arr;
+                    this.formData.parent_path = arr;
                   
                 },(response)=>{
                     console.log('失败');
@@ -156,8 +168,7 @@
 
                     let status = response.data.status;
                     if (status == 0) {
-                        response.data.data.shift();
-                        this.formData.permit_data = response.data.data;
+                        this.options = response.data.data;
                     } else {
                         // 提示错误信息
                         this.$message({ showClose: true, message: response.data.message, type: 'error' });
@@ -167,8 +178,8 @@
                     console.log('失败');
                 });
             },
-            checkChange: function() {
-                this.formData.permit_checked_keys = this.$refs.tree.getCheckedKeys();
+            handleChange: function(val) {
+                console.log(val.join().split(','));
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();

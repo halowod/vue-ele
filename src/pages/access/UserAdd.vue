@@ -16,6 +16,11 @@
               <el-form-item label="手机号" prop="phone">
                 <el-input v-model="formData.phone"></el-input>
               </el-form-item>
+              <el-form-item label="角色" prop="role_id">
+                <el-select v-model="formData.role_id" filterable placeholder="请选择">
+                  <el-option v-for="item in formData.options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
               <el-form-item label="密码" prop="pass">
                 <el-input type="password" v-model="formData.pass" auto-complete="off"></el-input>
               </el-form-item>
@@ -72,13 +77,14 @@
               phone: '',
               pass: '',
               checkPass: '',
-              status: false
+              status: false,
+              options: [],
+              role_id: '',
             },
 
             rules: {
-              user_name: [
-                { required: true, message: '请输入用户名', trigger: 'blur' }
-              ],
+              user_name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+              role_id: [{ required: true, message: '请选择用户组', trigger: 'blur' }],
               pass: [{ required: true, validator: validatePass, trigger: 'blur' }],
               checkPass: [{ required: true, validator: validatePass2, trigger: 'blur' }],
             }
@@ -91,6 +97,10 @@
             loading: function () {
                 return this.$store.getters.getLoading;
             }
+        },
+        created () {
+            // 渲染角色列表
+            this.getRoleData();
         },
         methods: {
             submitForm(formName) {
@@ -114,8 +124,9 @@
                 let checkPass = this.formData.checkPass;
                 let phone = this.formData.phone;
                 let status = this.formData.status;
+                let role_id = this.formData.role_id;
 
-                let data = `{"method":"access.user.add", "user_name": "${user_name}", "status": "${status}", "pass": "${pass}", "checkPass": "${checkPass}", "phone": "${phone}"}`;
+                let data = `{"method":"access.user.add", "user_name": "${user_name}", "status": "${status}", "pass": "${pass}", "checkPass": "${checkPass}", "phone": "${phone}", "role_id": "${role_id}"}`;
                 
                 this.axios({
                     method: 'post',
@@ -143,6 +154,28 @@
                     // console.log(status);
                 },(response)=>{
                     console.log('‘失败');
+                });
+            },
+            getRoleData: function() {
+
+                let data = `{"method":"access.role.data"}`;
+                
+                this.axios({
+                    method: 'post',
+                    url: '/role',
+                    data: data
+                }).then((response)=>{
+                    // console.log(response.data.data);
+                    if (response.data.status == 0) {
+                        this.formData.options = response.data.data;
+                    } else {
+                        // 提示错误信息
+                        this.$message(response.data.message);
+                    }
+                    
+                  
+                },(response)=>{
+                    console.log('失败');
                 });
             },
             resetForm(formName) {

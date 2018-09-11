@@ -122,8 +122,8 @@
     }
     .logo_left {
         background: linear-gradient(to left, #00A3FB , #0072F3); /* 标准的语法 */
-        padding-top: 10px;
-        line-height: 50px;
+        padding-top: 18px;
+        line-height: 40px;
     }
     .top-container {
         border: 1px solid #eee;
